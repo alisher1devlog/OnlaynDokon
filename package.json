@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier . --write",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
@@ -37,5 +41,12 @@
     "lint-staged": "^16.2.6",
     "nodemon": "^3.1.11",
     "prettier": "^3.6.2"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint",
+      "prettier --check"
+    ],
+    "*.{json,md}": "prettier --check"
   }
 }
