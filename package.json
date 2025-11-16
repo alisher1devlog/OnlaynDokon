@@ -1,34 +1,30 @@
 {
-  "name": "OnlaynDokon",
+  "name": "onlayndokon",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Ecommerce API project",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "----- LINTERS & FORMATTERS -----": "",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
     "prepare": "husky"
   },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": "prettier --write"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.20.0",
   "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "dotenv": "^17.2.3",
-    "express": "^5.1.0",
-    "express-validator": "^7.3.0",
-    "express-winston": "^4.2.0",
-    "joi": "^18.0.1",
-    "jsonwebtoken": "^9.0.2",
-    "knex": "^3.1.0",
-    "pg": "^8.16.3",
-    "uuid": "^13.0.0",
-    "winston": "^3.18.3",
-    "winston-mongodb": "^7.0.1"
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
@@ -39,14 +35,6 @@
     "globals": "^16.5.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.6",
-    "nodemon": "^3.1.11",
     "prettier": "^3.6.2"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint",
-      "prettier --check"
-    ],
-    "*.{json,md}": "prettier --check"
   }
 }
