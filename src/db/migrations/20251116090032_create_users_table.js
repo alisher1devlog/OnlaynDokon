@@ -14,7 +14,6 @@ export async function up(knex) {
       .enum("role", ["customer", "seller", "admin"])
       .notNullable()
       .defaultTo("customer");
-
     table
       .enum("status", ["active", "inactive"])
       .notNullable()
