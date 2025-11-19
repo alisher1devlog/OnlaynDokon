@@ -20,4 +20,13 @@ router.get("/profile", authGuard, AuthController.getProfiles);
 
 router.post("/logout", authGuard, AuthController.logOut);
 
+router.patch(
+  "/profile",
+  authGuard,
+  validate(AuthValidation.updateProfile),
+  AuthController.updateProfile,
+);
+
+router.post("/refresh-token", AuthController.refreshToken);
+
 export default router;

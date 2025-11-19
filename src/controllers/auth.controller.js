@@ -4,7 +4,7 @@ import OtpService from "../services/otp.service.js";
 import { generateOtp } from "../utils/generators.js";
 import EmailService from "../services/email.service.js";
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
-
+import jwt from "jsonwebtoken";
 const AuthController = {
   signup: async (req, res) => {
     try {
@@ -165,6 +165,62 @@ const AuthController = {
     } catch (e) {
       console.error("Chiqishda xatolik yuz berdi:", e);
       res.status(500).json({ message: "Serverda kutilmagan xatolik." });
+    }
+  },
+  updateProfile: async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const updateData = req.body;
+
+      const user = await UserService.getUserById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "Foydalanuvchi topilmadi." });
+      }
+
+      await UserService.updateUser(userId, updateData);
+
+      const updateUser = await UserService.getUserById(userId);
+      res.status(200).json({
+        message: "Profil muvaffaqiyatli yangilandi.",
+        user: updateUser,
+      });
+    } catch (e) {
+      console.error("Profilni yangilashda xatolik yuz berdi:", e);
+      res.status(500).json({ message: "Serverda kutilmagan xatolik." });
+    }
+  },
+  refreshToken: async (req, res) => {
+    try {
+      const oldRefreshToken = req.cookies.refreshToken;
+
+      if (!oldRefreshToken) {
+        return res.status(401).json({ message: "Refresh Token topilmadi." });
+      }
+
+      const decoded = jwt.verify(
+        oldRefreshToken,
+        process.env.JWT_REFRESH_SECRET,
+      );
+
+      const payload = { id: decoded.id, role: decoded.role };
+
+      const newAccessToken = generateAccessToken(payload);
+      const newRefreshToken = generateRefreshToken(payload);
+
+      res.cookie("refreshToken", newRefreshToken, {
+        httpOnly: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+
+      res.status(200).json({
+        accessToken: newAccessToken,
+        message: "Access Token yangilandi.",
+      });
+    } catch (e) {
+      console.error("Refresh Token error:", e);
+      res.status(401).json({
+        message: "Session muddati tugadi. Iltimos, qayta login qiling.",
+      });
     }
   },
 };
