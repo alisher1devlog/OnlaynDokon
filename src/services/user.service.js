@@ -35,7 +35,16 @@ const UserService = {
     try {
       const user = await db("users")
         .where({ id })
-        .select("id", "username", "email", "role", "status", "created_at")
+        .select(
+          "id",
+          "username",
+          "email",
+          "role",
+          "status",
+          "address",
+          "phone_number",
+          "created_at",
+        )
         .first();
 
       return user;

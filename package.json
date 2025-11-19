@@ -28,13 +28,16 @@
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-winston": "^4.2.0",
     "joi": "^18.0.1",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "nodemailer": "^7.0.10",
     "nodemon": "^3.1.11",
     "pg": "^8.16.3",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "winston": "^3.18.3",
+    "winston-mongodb": "^7.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
