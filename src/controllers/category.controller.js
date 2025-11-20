@@ -1,7 +1,8 @@
 import CategoryService from "../services/category.service.js";
+import { NotFoundError } from "../utils/CustomErrors.js";
 
 const CategoryController = {
-  getAllCategories: async (req, res) => {
+  getAllCategories: async (req, res, next) => {
     try {
       const categories = await CategoryService.getAllCategories();
       res.status(200).json(categories);
@@ -10,17 +11,16 @@ const CategoryController = {
       res.status(500).json({ message: "Serverda kutilmagan xatolik." });
     }
   },
-  getCategoryById: async (req, res) => {
+  getCategoryById: async (req, res, next) => {
     try {
       const { id } = req.params;
       const category = await CategoryService.getCategoryById(id);
       if (!category) {
-        return res.status(404).json({ message: "Kategoriya topilmadi." });
+        throw new NotFoundError("Bunday ID li kategoriya mavjud emas.");
       }
       res.status(200).json(category);
     } catch (e) {
-      console.error("Bunday ID li kategoriya mavjud emas:", e);
-      res.status(500).json({ message: "Serverda kutilmagan xatolik." });
+      next(e);
     }
   },
   createCategory: async (req, res) => {
